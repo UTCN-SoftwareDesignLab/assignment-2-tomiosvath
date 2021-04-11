@@ -16,6 +16,11 @@ public class CSVReportService implements ReportService {
 
     @Override
     public String export(List<BookDTO> books) {
+        createCSV(books);
+        return "I am a CSV reporter.";
+    }
+
+    private void createCSV(List<BookDTO> books){
         SimpleDateFormat ft = new SimpleDateFormat("MM-dd hh-mm-ss");
         Date date = new Date();
         //File file = new File(ft.format(date) + ".csv");
@@ -36,8 +41,6 @@ public class CSVReportService implements ReportService {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-        return "I am a CSV reporter.";
     }
 
     @Override
