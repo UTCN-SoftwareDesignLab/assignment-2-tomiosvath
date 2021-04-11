@@ -10,6 +10,8 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.stereotype.Service;
 import org.apache.pdfbox.pdmodel.PDDocument;
+
+import java.io.File;
 import java.io.IOException;
 
 import java.text.SimpleDateFormat;
@@ -21,6 +23,7 @@ import java.util.stream.Stream;
 
 @Service
 public class PdfReportService implements ReportService {
+    private final String fileName = "report.pdf";
 
     @Override
     public String export(List<BookDTO> books) {
@@ -114,26 +117,22 @@ public class PdfReportService implements ReportService {
             SimpleDateFormat ft = new SimpleDateFormat("MM-dd hh-mm-ss");
             Date date = new Date();
             //doc.save("PDFBox " + ft.format(date) + ".pdf");
-            doc.save("report.pdf");
+            doc.save(fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    /*public void exportJasper(List<Book> books){
-        try
-        {
-            File pdfFile = File.createTempFile("my-invoice", ".pdf");
-            FileOutputStream pos = new FileOutputStream(pdfFile);
-
+    public void delete(){
+        File file = new File(fileName);
+        if(file.delete()) {
+            System.out.println("File deleted successfully");
         }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
+        else {
+            System.out.println("Failed to delete the file");
         }
-    }*/
-
+    }
 
     @Override
     public ReportType getType() {

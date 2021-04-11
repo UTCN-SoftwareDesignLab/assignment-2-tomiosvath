@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 public class CSVReportService implements ReportService {
+    private final String fileName = "report.csv";
 
     @Override
     public String export(List<BookDTO> books) {
@@ -24,7 +25,7 @@ public class CSVReportService implements ReportService {
         SimpleDateFormat ft = new SimpleDateFormat("MM-dd hh-mm-ss");
         Date date = new Date();
         //File file = new File(ft.format(date) + ".csv");
-        File file = new File("report.csv");
+        File file = new File(fileName);
 
         try{
             FileWriter outputfile = new FileWriter(file);
@@ -46,5 +47,16 @@ public class CSVReportService implements ReportService {
     @Override
     public ReportType getType() {
         return ReportType.CSV;
+    }
+
+    @Override
+    public void delete() {
+        File file = new File(fileName);
+        if(file.delete()) {
+            System.out.println("File deleted successfully");
+        }
+        else {
+            System.out.println("Failed to delete the file");
+        }
     }
 }

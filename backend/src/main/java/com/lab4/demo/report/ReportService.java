@@ -8,4 +8,6 @@ public interface ReportService {
     String export(List<BookDTO> books);
 
     ReportType getType();
+
+    void delete();
 }

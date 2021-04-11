@@ -12,7 +12,7 @@ export default {
   exportCSV(){
     //return HTTP.get(BASE_URL + "/fo/export/CSV", { headers: authHeader() }).then();
     return axios({
-      url: BASE_URL + '/fo/files/report.csv/CSV',
+      url: BASE_URL + '/fo/files/CSV',
       method: 'GET',
       headers: authHeader(),
       responseType: 'blob',
@@ -31,7 +31,7 @@ export default {
     //return HTTP.get(BASE_URL + "/fo/files/image.jpg", { headers: authHeader() }).then();
     //return HTTP.get(BASE_URL + "/fo/export/PDF", { headers: authHeader() }).then();
     return axios({
-      url: BASE_URL + '/fo/files/report.pdf/PDF',
+      url: BASE_URL + '/fo/files/PDF',
       method: 'GET',
       headers: authHeader(),
       responseType: 'blob',
