@@ -5,9 +5,8 @@ import com.lab4.demo.frontoffice.model.dto.BookDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,12 +23,15 @@ public class BookService {
     }
 
     public Book findById(Long id){
-        List<Long> list = new ArrayList<>();
+        /*List<Long> list = new ArrayList<>();
         list.add(id);
         if (bookRepository.findAllById(list).size() > 0)
             return bookRepository.findAllById(list).get(0);
 
         return null;
+         */
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No book with id: " + id));
     }
 
     public BookDTO create(BookDTO book){
@@ -37,22 +39,19 @@ public class BookService {
     }
 
     public BookDTO find(String author, String title, String genre){
-        return bookMapper.toDto(bookRepository.findBook(author, title, genre));
+        return bookMapper.toDto(bookRepository.findByAuthorLikeOrTitleLikeOrGenreLike(author, title, genre));
     }
 
     public void delete(Long id){
-        Optional<Book> book = bookRepository.findById(id);
-        bookRepository.delete(book.get());
+        Book book = findById(id);
+        bookRepository.delete(book);
     }
 
-    public boolean sell(Long id){
-        Optional<Book> book = bookRepository.findById(id);
-        if (book.isEmpty())
-            return false;
+    public void sell(Long id){
+        Book book = findById(id);
 
-        book.get().setQuantity(book.get().getQuantity() - 1);
-        bookRepository.save(book.get());
-        return true;
+        book.setQuantity(book.getQuantity() - 1);
+        bookRepository.save(book);
     }
 
     public BookDTO edit(BookDTO book) {
@@ -68,8 +67,8 @@ public class BookService {
         );
     }
 
-    public List<BookDTO> findOutOfStock(){
-        return bookRepository.findOutOfStock().stream()
+    public List<BookDTO> findAllByQuantity(int quantity){
+        return bookRepository.findAllByQuantity(quantity).stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
     }

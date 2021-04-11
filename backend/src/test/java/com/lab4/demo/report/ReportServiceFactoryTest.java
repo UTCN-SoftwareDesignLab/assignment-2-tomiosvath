@@ -13,7 +13,7 @@ class ReportServiceFactoryTest {
 
     @Autowired
     private ReportServiceFactory reportServiceFactory;
-
+    /*
     @Test
     void getReportService() {
         ReportService csvReportService = reportServiceFactory.getReportService(CSV);
@@ -22,4 +22,6 @@ class ReportServiceFactoryTest {
         ReportService pdfReportService = reportServiceFactory.getReportService(PDF);
         Assertions.assertEquals("I am a PDF reporter.", pdfReportService.export());
     }
+
+     */
 }

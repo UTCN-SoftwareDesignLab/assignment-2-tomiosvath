@@ -1,49 +1,27 @@
 package com.lab4.demo.frontoffice;
 
-import com.lab4.demo.UrlMapping;
-import com.lab4.demo.frontoffice.model.Book;
 import com.lab4.demo.frontoffice.model.dto.BookDTO;
-import com.lab4.demo.frontoffice.model.dto.ItemDTO;
 import com.lab4.demo.report.ReportServiceFactory;
 import com.lab4.demo.report.ReportType;
 import lombok.RequiredArgsConstructor;
+import org.apache.pdfbox.io.IOUtils;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
-import static com.lab4.demo.UrlMapping.EXPORT_REPORT;
 import static com.lab4.demo.UrlMapping.FRONT_OFFICE;
+import static org.apache.tomcat.util.http.fileupload.IOUtils.copy;
 
 @RestController
 @RequestMapping(FRONT_OFFICE)
 @RequiredArgsConstructor
 public class FrontOfficeController {
-
-    /*
-    private final ItemService itemService;
-    private final ReportServiceFactory reportServiceFactory;
-
-
-    @GetMapping
-    public List<ItemDTO> allItems() {
-        return itemService.findAll();
-    }
-
-    @PostMapping
-    public ItemDTO create(@RequestBody ItemDTO item) {
-        return itemService.create(item);
-    }
-
-    @PatchMapping
-    public ItemDTO edit(@RequestBody ItemDTO item) {
-        return itemService.edit(item);
-    }
-
-    @GetMapping(EXPORT_REPORT)
-    public String exportReport(@PathVariable ReportType type) {
-        return reportServiceFactory.getReportService(type).export();
-    }
-     */
 
     private final BookService bookService;
     private final ReportServiceFactory reportServiceFactory;
@@ -75,6 +53,23 @@ public class FrontOfficeController {
 
     @GetMapping("/export/{type}")
     public void export(@PathVariable ReportType type){
-        reportServiceFactory.getReportService(type).export(bookService.findOutOfStock());
+        reportServiceFactory.getReportService(type).export(bookService.findAllByQuantity(0));
+    }
+
+    @RequestMapping(value = "/files/{file_name}/{type}", method = RequestMethod.GET)
+    public void getFile(
+            @PathVariable("file_name") String fileName,
+            @PathVariable("type") ReportType type,
+            HttpServletResponse response) {
+
+        reportServiceFactory.getReportService(type).export(bookService.findAllByQuantity(0));
+        try {
+            InputStream is = new FileInputStream(fileName);
+            org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException ex) {
+            throw new RuntimeException("IOError writing file to output stream");
+        }
+
     }
 }

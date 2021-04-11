@@ -8,8 +8,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Getter
-@Setter
 @Data
 public class Book {
 
@@ -26,10 +24,8 @@ public class Book {
     @Column(length = 512, nullable = false)
     private String genre;
 
-    @Column()
     private int quantity;
 
-    @Column()
-    private float price;
+    private Float price;
 
 }

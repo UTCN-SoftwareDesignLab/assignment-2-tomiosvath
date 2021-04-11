@@ -18,7 +18,8 @@ public class CSVReportService implements ReportService {
     public String export(List<BookDTO> books) {
         SimpleDateFormat ft = new SimpleDateFormat("MM-dd hh-mm-ss");
         Date date = new Date();
-        File file = new File(ft.format(date) + ".csv");
+        //File file = new File(ft.format(date) + ".csv");
+        File file = new File("report.csv");
 
         try{
             FileWriter outputfile = new FileWriter(file);

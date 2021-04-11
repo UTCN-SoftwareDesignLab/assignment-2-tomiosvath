@@ -1,6 +1,6 @@
 package com.lab4.demo;
 
-import com.lab4.demo.frontoffice.ItemRepository;
+import com.lab4.demo.frontoffice.BookRepository;
 import com.lab4.demo.security.AuthService;
 import com.lab4.demo.security.dto.SignupRequest;
 import com.lab4.demo.user.RoleRepository;
@@ -25,7 +25,8 @@ public class Bootstrapper implements ApplicationListener<ApplicationReadyEvent> 
 
     private final AuthService authService;
 
-    private final ItemRepository itemRepository;
+    //private final ItemRepository itemRepository;
+    private final BookRepository bookRepository;
 
     @Value("${app.bootstrap}")
     private Boolean bootstrap;
@@ -33,7 +34,7 @@ public class Bootstrapper implements ApplicationListener<ApplicationReadyEvent> 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         if (bootstrap) {
-            itemRepository.deleteAll();
+            bookRepository.deleteAll();
             userRepository.deleteAll();
             roleRepository.deleteAll();
             for (ERole value : ERole.values()) {

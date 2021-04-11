@@ -1,19 +1,7 @@
 package com.lab4.demo;
 
-import com.lab4.demo.frontoffice.model.Item;
-import com.lab4.demo.frontoffice.model.dto.ItemDTO;
-import com.lab4.demo.user.dto.UserListDTO;
-
-import java.util.List;
-import java.util.Random;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static java.util.stream.Collectors.toList;
-
 public class TestCreationFactory {
-
+/*
     @SuppressWarnings("all")
     public static <T> List<T> listOf(Class cls) {
         return listOf(cls, (Object[]) null);
@@ -99,4 +87,6 @@ public class TestCreationFactory {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
     }
+
+ */
 }
